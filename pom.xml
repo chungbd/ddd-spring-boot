@@ -11,6 +11,9 @@
     <modules>
         <module>xxxx-start</module>
         <module>xxxx-controller</module>
+        <module>xxxx-application</module>
+        <module>xxxx-infrastructure</module>
+        <module>xxxx-domain</module>
     </modules>
 
     <properties>
@@ -35,6 +38,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot4</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

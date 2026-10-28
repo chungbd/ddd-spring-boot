@@ -1,2 +1,57 @@
 server:
   port: 1122
+  tomcat:
+    threads:
+      max: 10
+
+
+spring:
+  application:
+    name: xxxx-start
+  datasource:
+    url: jdbc:mysql://localhost:3306/xxxx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+        sliding-window-size: 10 # The number of calls that are recorded when the circuit breaker is closed. The sliding window is a rolling window, so it will always contain the last N calls.
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        wait-duration-in-open-state: 5s
+        failure-rate-threshold: 50
+        event-consumer-buffer-size: 10
+  ratelimiter:
+    instances:
+      backendA:
+        limit-for-period: 2 # Maximum number of requests allowed in the specified time window
+        limit-refresh-period: 10s # Time window duration for rate limiting
+        timeout-duration: 0
+        register-health-indicator: true
+        event-consumer-buffer-size: 100
+      backendB:
+        limit-for-period: 5
+        limit-refresh-period: 10s
+        timeout-duration: 3s
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
